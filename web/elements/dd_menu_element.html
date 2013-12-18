@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+
+<polymer-element name="dropdown-menu-element" attributes="choice">
+  <template>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../font-awesome-4.0.3/css/font-awesome.min.css">
+    <div id="dd" class="wrapper-dropdown-3" tabindex="1">
+      <span>{{selected}}</span>
+      <ul class="dropdown">
+        <template repeat="{{theme in items}}" >
+          <li><a href="#" id="{{theme.name}}" on-click="{{select}}"><i class={{theme.icon}}></i>{{theme.name}}</a></li>
+        </template>
+      </ul>
+    </div>
+  </template>
+  <script type="application/dart" src="dd_menu_element.dart"></script>
+</polymer-element>

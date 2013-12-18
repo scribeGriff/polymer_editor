@@ -1,0 +1,16 @@
+name: polymer_editor
+author: Richard Griffith
+version: 0.0.1
+sdk:
+  sdk: '>=1.0.0 <2.0.0'
+description: The Ace Editor as a Polymer Element
+environment:
+  sdk: '>=1.0.0 <2.0.0'
+dependencies:
+  ace: '>=0.1.4+12.2.2013'
+  browser: '>=0.9.0 <0.10.0'
+  js: '>=0.2.0'
+  polymer: '>=0.9.0 <0.10.0'
+transformers:
+- polymer:
+    entry_points: web/index.html
