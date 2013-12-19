@@ -2,11 +2,10 @@ import 'package:polymer/polymer.dart';
 import 'dart:html';
 import 'package:ace/ace.dart' as ace;
 
-
 @CustomTag('editor-element')
 class Editor extends PolymerElement {
-  //@published String id = '';
-  @observable String choice = '';
+  @published String choice;
+  String mode;
   static String ncoeff = '1, 2, 3';
   static String nindex = '2';
   static String dcoeff = '4, 5, 6, 7';
@@ -47,18 +46,18 @@ void main() {
   @override
   void attributeChanged(String attrName, String oldVal, String newVal) {
     super.attributeChanged(attrName, oldVal, newVal);
-    print(attrName);
-    print(oldVal);
-    print(newVal);
-    editor.theme = new ace.Theme("ace/theme/$newVal");
+    if (attrName == 'choice' && newVal != oldVal) {
+      editor.theme = new ace.Theme("ace/theme/$newVal");
+    }
   }
 
+  @override
   enteredView() {
     super.enteredView();
     ace.require('ace/ext/language_tools');
     editor = ace.edit($['editor'])
         ..theme = new ace.Theme("ace/theme/$choice")
-        ..session.mode = new ace.Mode("ace/mode/dart")
+        ..session.mode = new ace.Mode("ace/mode/$mode")
         ..session.tabSize = 2
         ..session.useSoftTabs = true
         ..fontSize = 15
@@ -67,12 +66,5 @@ void main() {
           'enableSnippets' : true
         });
     editor.session.insert(editor.cursorPosition, "${resultsAll[id]}");
-  }
-
-  void compute(Event e, var detail, Element target) {
-    e.preventDefault();
-    //editor.session.insert(editor.cursorPosition, "${resultsAll[id]}");
-    //editor.theme = new ace.Theme.named(ace.Theme.TEXTMATE);
-    //print(ace.Theme.THEMES);
   }
 }

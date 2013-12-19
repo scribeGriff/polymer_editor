@@ -4,6 +4,7 @@ import 'package:polymer/polymer.dart';
 @CustomTag('ace-editor')
 class Editor extends PolymerElement {
   @observable String theme;
+  String lang;
   Editor.created() : super.created() {
     theme = this.theme;
   }

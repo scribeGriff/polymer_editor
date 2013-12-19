@@ -1,8 +1,6 @@
 name: polymer_editor
 author: Richard Griffith
 version: 0.0.1
-sdk:
-  sdk: '>=1.0.0 <2.0.0'
 description: The Ace Editor as a Polymer Element
 environment:
   sdk: '>=1.0.0 <2.0.0'

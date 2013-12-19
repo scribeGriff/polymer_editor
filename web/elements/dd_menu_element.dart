@@ -10,8 +10,7 @@ class Item extends Observable {
 
 @CustomTag('dropdown-menu-element')
 class DropdownMenuElement extends PolymerElement {
-  @observable String selected = 'ambiance';
-  @published String choice = '';
+  @published String choice = 'ambiance';
   final List<Item> items = [
                             new Item('ambiance', 'fa fa-glass'),
                             new Item('chaos', 'fa fa-bolt'),
@@ -22,9 +21,7 @@ class DropdownMenuElement extends PolymerElement {
 
   Element ddmenu;
 
-  DropdownMenuElement.created() : super.created() {
-    choice = selected;
-  }
+  DropdownMenuElement.created() : super.created();
 
   enteredView() {
     super.enteredView();
@@ -42,8 +39,7 @@ class DropdownMenuElement extends PolymerElement {
 
   select(Event e, var detail, Element target) {
     e.preventDefault();
-    selected = target.attributes["id"];
-    choice = selected;
+    choice = target.attributes["id"];
   }
 
   removeActiveClass() {

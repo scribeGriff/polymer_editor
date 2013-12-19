@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<polymer-element name="ace-editor">
+<polymer-element name="ace-editor" attributes="lang">
   <link rel="import" href="editor_element.html">
   <link rel="import" href="dd_menu_element.html">
   <link rel="stylesheet" href="../css/polymer_editor.css">
@@ -8,7 +8,7 @@
   <template>
     <div id="editor-container">
       <dropdown-menu-element id="themes" choice="{{theme}}"></dropdown-menu-element>
-      <editor-element id="convolution" choice="{{theme}}"></editor-element>
+      <editor-element id="convolution" choice="{{theme}}" mode="{{lang}}"></editor-element>
     </div>
   </template>
   <script type="application/dart" src="ace_editor.dart"></script>
