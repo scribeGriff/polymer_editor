@@ -38,6 +38,7 @@ void main() {
 """;
 
   var editor, editorBkgd;
+  var mainDoc, bkgdDoc;
   var initCursorPosition;
   Element viewer, viewerBkgd;
 
@@ -69,7 +70,8 @@ void main() {
           'enableBasicAutocompletion' : true,
           'enableSnippets' : true
         });
-    editor.session.insert(editor.cursorPosition, "${resultsAll[id]}");
+    mainDoc = editor.session.document;
+    mainDoc.insert(editor.cursorPosition, "${resultsAll[id]}");
 
     // A background editor that is just for better ux when
     // transitioning between themes.
@@ -79,16 +81,16 @@ void main() {
         ..session.tabSize = 2
         ..session.useSoftTabs = true
         ..fontSize = 15;
-    editorBkgd.session.insert(editor.cursorPosition, "${resultsAll[id]}");
+    bkgdDoc = editorBkgd.session.document;
     initCursorPosition = editorBkgd.cursorPosition;
   }
 
   updateTheme(String newTheme) {
     if (viewer != null) {
-      // This is stopping the rendering engine.  Why is that and how to fix?
-      //var text = editor.session.getAllLines();
-      //editorBkgd.session.replace(new ace.Range.fromPoints(initCursorPosition,
-          //editorBkgd.cursorPosition), editor.session.getAllLines());
+      // update background document with main documents text.
+      String currentText = mainDoc.getAllLines().join("\n");
+      bkgdDoc.replace(new ace.Range.fromPoints(initCursorPosition,
+          editorBkgd.cursorPosition), currentText);
       editorBkgd.theme = new ace.Theme("ace/theme/$newTheme");
       viewer.classes.add('fade');
       viewer.onTransitionEnd.first.then((_) {
