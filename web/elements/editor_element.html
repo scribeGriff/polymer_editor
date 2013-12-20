@@ -3,12 +3,26 @@
 <polymer-element name="editor-element" attributes="choice mode">
   <template>
     <style>
+      #editor-container {
+        width: 90%;
+        margin: 0 auto;
+      }
       #editor { 
         height: 525px;
         padding: 50px;
+        border-radius: 10px;
+        -webkit-transition: opacity 0.5s ease-in-out;
+        -moz-transition: opacity 0.5s ease-in-out;
+        -o-transition: opacity 0.5s ease-in-out;
+        transition: opacity 0.5s ease-in-out;
+      }
+      .fade {
+        opacity: 0;
       }
     </style>
-    <pre id="editor"></pre>
+    <div id="editor-container">
+      <pre id="editor"></pre>
+    </div>
   </template>
   <script type="application/dart" src="editor_element.dart"></script>
 </polymer-element>

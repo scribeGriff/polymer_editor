@@ -38,6 +38,7 @@ void main() {
 """;
 
   var editor;
+  Element viewer;
 
   bool get applyAuthorStyles => true;
 
@@ -47,7 +48,7 @@ void main() {
   void attributeChanged(String attrName, String oldVal, String newVal) {
     super.attributeChanged(attrName, oldVal, newVal);
     if (attrName == 'choice' && newVal != oldVal) {
-      editor.theme = new ace.Theme("ace/theme/$newVal");
+      updateTheme(newVal);
     }
   }
 
@@ -55,7 +56,8 @@ void main() {
   enteredView() {
     super.enteredView();
     ace.require('ace/ext/language_tools');
-    editor = ace.edit($['editor'])
+    viewer = $['editor'];
+    editor = ace.edit(viewer)
         ..theme = new ace.Theme("ace/theme/$choice")
         ..session.mode = new ace.Mode("ace/mode/$mode")
         ..session.tabSize = 2
@@ -66,5 +68,15 @@ void main() {
           'enableSnippets' : true
         });
     editor.session.insert(editor.cursorPosition, "${resultsAll[id]}");
+  }
+
+  updateTheme(String newTheme) {
+    if (viewer != null) {
+      viewer.classes.add('fade');
+      viewer.onTransitionEnd.first.then((_) {
+        editor.theme = new ace.Theme("ace/theme/$newTheme");
+        viewer.classes.remove('fade');
+      });
+    }
   }
 }
