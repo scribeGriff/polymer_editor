@@ -37,8 +37,9 @@ void main() {
 }
 """;
 
-  var editor;
-  Element viewer;
+  var editor, editorBkgd;
+  var initCursorPosition;
+  Element viewer, viewerBkgd;
 
   bool get applyAuthorStyles => true;
 
@@ -57,6 +58,7 @@ void main() {
     super.enteredView();
     ace.require('ace/ext/language_tools');
     viewer = $['editor'];
+    viewerBkgd = $['editor-background'];
     editor = ace.edit(viewer)
         ..theme = new ace.Theme("ace/theme/$choice")
         ..session.mode = new ace.Mode("ace/mode/$mode")
@@ -68,10 +70,26 @@ void main() {
           'enableSnippets' : true
         });
     editor.session.insert(editor.cursorPosition, "${resultsAll[id]}");
+
+    // A background editor that is just for better ux when
+    // transitioning between themes.
+    editorBkgd = ace.edit(viewerBkgd)
+        ..theme = new ace.Theme("ace/theme/$choice")
+        ..session.mode = new ace.Mode("ace/mode/$mode")
+        ..session.tabSize = 2
+        ..session.useSoftTabs = true
+        ..fontSize = 15;
+    editorBkgd.session.insert(editor.cursorPosition, "${resultsAll[id]}");
+    initCursorPosition = editorBkgd.cursorPosition;
   }
 
   updateTheme(String newTheme) {
     if (viewer != null) {
+      // This is stopping the rendering engine.  Why is that and how to fix?
+      //var text = editor.session.getAllLines();
+      //editorBkgd.session.replace(new ace.Range.fromPoints(initCursorPosition,
+          //editorBkgd.cursorPosition), editor.session.getAllLines());
+      editorBkgd.theme = new ace.Theme("ace/theme/$newTheme");
       viewer.classes.add('fade');
       viewer.onTransitionEnd.first.then((_) {
         editor.theme = new ace.Theme("ace/theme/$newTheme");

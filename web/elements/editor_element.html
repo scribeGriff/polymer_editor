@@ -6,6 +6,21 @@
       #editor-container {
         width: 90%;
         margin: 0 auto;
+        position: relative;
+      }
+      #editor-top {
+        position: absolute;
+        width: 100%;
+        top: 0;
+        left: 0;
+        z-index: 10;
+      }
+      #editor-bottom {
+        position: absolute;
+        width: 100%;
+        top: 0;
+        left: 0;
+        z-index: 0;
       }
       #editor { 
         height: 525px;
@@ -16,12 +31,22 @@
         -o-transition: opacity 0.5s ease-in-out;
         transition: opacity 0.5s ease-in-out;
       }
+      #editor-background { 
+        height: 525px;
+        padding: 50px;
+        border-radius: 10px;
+      }
       .fade {
         opacity: 0;
       }
     </style>
     <div id="editor-container">
-      <pre id="editor"></pre>
+      <div id="editor-top">
+        <pre id="editor"></pre>
+      </div>
+      <div id="editor-bottom">
+        <pre id="editor-background"></pre>
+      </div>
     </div>
   </template>
   <script type="application/dart" src="editor_element.dart"></script>
