@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+
+<polymer-element name="dropdown-menu-element" attributes="choice">
+  <template>
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="../../font-awesome-4.0.3/css/font-awesome.min.css">
+    <div id="dd" class="wrapper-dropdown-3" tabindex="1">
+      <span>{{choice}}</span>
+      <ul class="dropdown">
+        <template repeat="{{theme in items}}">
+          <template if="{{darkTheme && theme.dark}}">
+            <li><a href="#" id="{{theme.name}}" on-click="{{select}}"><i class={{theme.icon}}></i>{{theme.name}}</a></li>
+          </template>
+          <template if="{{!darkTheme && !theme.dark}}">
+            <li><a href="#" id="{{theme.name}}" on-click="{{select}}"><i class={{theme.icon}}></i>{{theme.name}}</a></li>
+          </template>
+        </template>
+      </ul>
+    </div>
+    <div class="squaredThree">
+      <input type="checkbox" checked="{{darkTheme}}" value="None" id="squaredThree" name="check">
+      <label for="squaredThree"></label>
+    </div>
+  </template>
+  <script type="application/dart" src="dd_menu_element.dart"></script>
+</polymer-element>
