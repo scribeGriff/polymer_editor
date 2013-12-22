@@ -37,9 +37,8 @@ void main() {
 }
 """;
 
-  var editor, editorBkgd;
-  var mainDoc, bkgdDoc;
-  var initCursorPosition;
+  ace.Editor editor, editorBkgd;
+  ace.Document mainDoc, bkgdDoc;
   Element viewer, viewerBkgd;
 
   bool get applyAuthorStyles => true;
@@ -66,6 +65,7 @@ void main() {
         ..session.tabSize = 2
         ..session.useSoftTabs = true
         ..fontSize = 15
+        ..focus()
         ..setOptions({
           'enableBasicAutocompletion' : true,
           'enableSnippets' : true
@@ -80,23 +80,43 @@ void main() {
         ..session.mode = new ace.Mode("ace/mode/$mode")
         ..session.tabSize = 2
         ..session.useSoftTabs = true
-        ..fontSize = 15;
+        ..fontSize = 15
+        ..readOnly = true;
     bkgdDoc = editorBkgd.session.document;
-    initCursorPosition = editorBkgd.cursorPosition;
+    bkgdDoc.insert(editor.cursorPosition, "${resultsAll[id]}");
   }
 
   updateTheme(String newTheme) {
+    ace.Point activeCursorPos;
+    ace.Point bkgdCursorPos;
+    int rowDelta;
+
     if (viewer != null) {
-      // update background document with main documents text.
+      // Update background document with main document's text, keeping
+      // track of cursor position during the transition.
+      // This part is not working correctly for windows sized to present
+      // a horizontal scroll bar.  Need the cursor position of main document.
+      editorBkgd.navigateFileEnd();
       String currentText = mainDoc.getAllLines().join("\n");
-      bkgdDoc.replace(new ace.Range.fromPoints(initCursorPosition,
+      bkgdDoc.replace(new ace.Range.fromPoints(new ace.Point(0, 0),
           editorBkgd.cursorPosition), currentText);
+      activeCursorPos = editor.cursorPosition;
+      bkgdCursorPos = editorBkgd.cursorPosition;
+      rowDelta = activeCursorPos.row - bkgdCursorPos.row;
+      if (rowDelta != 0) {
+        if(rowDelta < 0) {
+          editorBkgd.navigateUp(rowDelta.abs());
+        } else {
+          editorBkgd.navigateDown(rowDelta);
+        }
+      }
       editorBkgd.theme = new ace.Theme("ace/theme/$newTheme");
       viewer.classes.add('fade');
       viewer.onTransitionEnd.first.then((_) {
         editor.theme = new ace.Theme("ace/theme/$newTheme");
         viewer.classes.remove('fade');
       });
+      editor.focus();
     }
   }
 }
