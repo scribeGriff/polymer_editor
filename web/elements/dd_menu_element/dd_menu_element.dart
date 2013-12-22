@@ -70,4 +70,18 @@ class DropdownMenuElement extends PolymerElement {
   removeActiveClass() {
     ddmenu.classes.remove('active');
   }
+
+  toggleDark(Event e, var detail, Element target) {
+    target.parent.classes.toggle('dd-select-light');
+    target.parent.classes.toggle('dd-select-dark');
+    if (ddmenu.classes.contains('active')) {
+      ddmenu.classes.toggle('active');
+      ddmenu.onTransitionEnd.first.then((_) {
+        darkTheme = !darkTheme;
+        ddmenu.classes.toggle('active');
+      });
+    } else {
+      darkTheme = !darkTheme;
+    }
+  }
 }

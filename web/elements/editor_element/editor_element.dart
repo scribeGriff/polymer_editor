@@ -13,7 +13,6 @@ class Editor extends PolymerElement {
 
   final Map resultsAll = {
                           "convolution" : resultsConvolution
-
   };
 
   static String resultsConvolution = """
