@@ -6,14 +6,14 @@
   <link rel="stylesheet" href="../../font-awesome-4.0.3/css/font-awesome.min.css">
   <div id=dd-menu>
     <div id="dd" class="wrapper-dropdown-3" tabindex="1">
-      <span>{{choice}}</span>
+      <span>{{commonName}}</span>
       <ul class="dropdown">
         <template repeat="{{theme in items}}">
           <template if="{{darkTheme && theme.dark}}">
-            <li><a href="#" id="{{theme.name}}" on-click="{{select}}"><i class={{theme.icon}}></i>{{theme.name}}</a></li>
+            <li><a href="#" id="{{theme.name}}" on-click="{{select}}"><i class={{theme.icon}}></i>{{theme.cname}}</a></li>
           </template>
           <template if="{{!darkTheme && !theme.dark}}">
-            <li><a href="#" id="{{theme.name}}" on-click="{{select}}"><i class={{theme.icon}}></i>{{theme.name}}</a></li>
+            <li><a href="#" id="{{theme.name}}" on-click="{{select}}"><i class={{theme.icon}}></i>{{theme.cname}}</a></li>
           </template>
         </template>
       </ul>

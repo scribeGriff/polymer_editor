@@ -7,22 +7,26 @@ class Item extends Observable {
   @observable bool dark;
 
   Item(this.name, this.icon, this.dark);
+
+  String get cname => name.split("_").map((word) =>
+      word.substring(0,1).toUpperCase() + word.substring(1)).join(" ");
 }
 
 @CustomTag('dropdown-menu-element')
 class DropdownMenuElement extends PolymerElement {
   @published bool darkTheme = false;
   @published String choice;
+  @published String commonName;
   final List<Item> items = [
                             new Item('ambiance', 'fa fa-glass', true),
                             new Item('chaos', 'fa fa-bolt', true),
                             new Item('chrome', 'fa fa-desktop', false),
                             new Item('clouds', 'fa fa-cloud', false),
                             new Item('github', 'fa fa-github', false),
-                            new Item('clouds_midnight', 'fa fa-glass', true),
-                            new Item('cobalt', 'fa fa-bolt', true),
-                            new Item('crimson_editor', 'fa fa-desktop', false),
-                            new Item('dawn', 'fa fa-cloud', false),
+                            new Item('clouds_midnight', 'fa fa-cloud', true),
+                            new Item('cobalt', 'fa fa-flask', true),
+                            new Item('crimson_editor', 'fa fa-file-text-o', false),
+                            new Item('dawn', 'fa fa-rocket', false),
                             new Item('dreamweaver', 'fa fa-github', false),
                             new Item('eclipse', 'fa fa-glass', false),
                             new Item('kr_theme', 'fa fa-desktop', true),
@@ -45,7 +49,8 @@ class DropdownMenuElement extends PolymerElement {
   Element ddmenu;
 
   DropdownMenuElement.created() : super.created() {
-    choice = darkTheme ? 'ambiance' : 'github';
+    choice = darkTheme ? items.first.name : items[4].name;
+    commonName = darkTheme ? items.first.cname : items[4].cname;
   }
 
   enteredView() {
@@ -64,7 +69,8 @@ class DropdownMenuElement extends PolymerElement {
 
   select(Event e, var detail, Element target) {
     e.preventDefault();
-    choice = target.attributes["id"];
+    choice = target.id;
+    commonName = target.text;
   }
 
   removeActiveClass() {
