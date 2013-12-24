@@ -27,23 +27,23 @@ class DropdownMenuElement extends PolymerElement {
                             new Item('cobalt', 'fa fa-flask', true),
                             new Item('crimson_editor', 'fa fa-file-text-o', false),
                             new Item('dawn', 'fa fa-rocket', false),
-                            new Item('dreamweaver', 'fa fa-github', false),
-                            new Item('eclipse', 'fa fa-glass', false),
-                            new Item('kr_theme', 'fa fa-desktop', true),
-                            new Item('merbivore', 'fa fa-cloud', true),
-                            new Item('merbivore_soft', 'fa fa-github', true),
-                            new Item('monokai', 'fa fa-bolt', true),
-                            new Item('pastel_on_dark', 'fa fa-desktop', true),
-                            new Item('solarized_dark', 'fa fa-cloud', true),
-                            new Item('solarized_light', 'fa fa-github', false),
-                            new Item('terminal', 'fa fa-glass', true),
-                            new Item('textmate', 'fa fa-bolt', false),
-                            new Item('tomorrow', 'fa fa-desktop', false),
-                            new Item('tomorrow_night_blue', 'fa fa-github', true),
-                            new Item('tomorrow_night_bright', 'fa fa-glass', true),
-                            new Item('twilight', 'fa fa-desktop', true),
-                            new Item('vibrant_ink', 'fa fa-cloud', true),
-                            new Item('xcode', 'fa fa-github', false)
+                            new Item('dreamweaver', 'fa fa-magic', false),
+                            new Item('eclipse', 'fa fa-moon-o', false),
+                            new Item('kr_theme', 'fa fa-shield', true),
+                            new Item('merbivore', 'fa fa-align-justify', true),
+                            new Item('merbivore_soft', 'fa fa-bars', true),
+                            new Item('monokai', 'fa fa-road', true),
+                            new Item('pastel_on_dark', 'fa fa-leaf', true),
+                            new Item('solarized_dark', 'fa fa-star', true),
+                            new Item('solarized_light', 'fa fa-star-o', false),
+                            new Item('terminal', 'fa fa-terminal', true),
+                            new Item('textmate', 'fa fa-columns', false),
+                            new Item('tomorrow', 'fa fa-calendar-o', false),
+                            new Item('tomorrow_night_blue', 'fa fa-calendar', true),
+                            new Item('tomorrow_night_bright', 'fa fa-calendar-o', true),
+                            new Item('twilight', 'fa fa-adjust fa-rotate-90', true),
+                            new Item('vibrant_ink', 'fa fa-pencil-square-o', true),
+                            new Item('xcode', 'fa fa-apple', false)
                             ];
 
   Element ddmenu;
@@ -51,6 +51,9 @@ class DropdownMenuElement extends PolymerElement {
   DropdownMenuElement.created() : super.created() {
     choice = darkTheme ? items.first.name : items[4].name;
     commonName = darkTheme ? items.first.cname : items[4].cname;
+
+    onPropertyChange(this, #darkTheme, () =>
+        notifyPropertyChange(#themeClass, null, darkTheme));
   }
 
   enteredView() {
@@ -78,8 +81,6 @@ class DropdownMenuElement extends PolymerElement {
   }
 
   toggleDark(Event e, var detail, Element target) {
-    target.parent.classes.toggle('dd-select-light');
-    target.parent.classes.toggle('dd-select-dark');
     if (ddmenu.classes.contains('active')) {
       ddmenu.classes.toggle('active');
       ddmenu.onTransitionEnd.first.then((_) {
@@ -89,5 +90,10 @@ class DropdownMenuElement extends PolymerElement {
     } else {
       darkTheme = !darkTheme;
     }
+  }
+
+  @reflectable String get themeClass {
+    if (darkTheme) return 'dd-select-dark';
+    else return 'dd-select-light';
   }
 }

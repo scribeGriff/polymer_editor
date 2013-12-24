@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 
+<link rel="import" href="packages/polymer_elements/polymer_localstorage/polymer_localstorage.html">
 <polymer-element name="dropdown-menu-element" attributes="choice">
   <template>
   <link rel="stylesheet" href="../../css/style.css">
@@ -18,10 +19,11 @@
         </template>
       </ul>
     </div>
-    <div id="dd-check" class="dd-select-light">
+    <div id="dd-check" class="{{themeClass}}">
       <i on-click="{{toggleDark}}" class="fa fa-code fa-lg"></i>
     </div>
   </div>
+  <polymer-localstorage name="themeChoice" value="{{darkTheme}}"></polymer-localstorage>
   </template>
   <script type="application/dart" src="dd_menu_element.dart"></script>
 </polymer-element>
