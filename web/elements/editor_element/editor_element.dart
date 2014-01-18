@@ -1,6 +1,7 @@
 import 'package:polymer/polymer.dart';
 import 'dart:html';
 import 'package:ace/ace.dart' as ace;
+import 'package:ace/proxy.dart';
 
 @CustomTag('editor-element')
 class Editor extends PolymerElement {
@@ -76,6 +77,7 @@ void main() {
   @override
   enteredView() {
     super.enteredView();
+    ace.implementation = ACE_PROXY_IMPLEMENTATION;
     ace.require('ace/ext/language_tools');
     viewer = $['editor'];
     viewerBkgd = $['editor-background'];

@@ -3,11 +3,14 @@
 
 Using Ross Smith's awesome Ace api to make an editor element in Polymer.dart (JS-Interop now works in Polymer.dart).
 
-### Todo:  
-- css to handle theme changes (transition)  
-- layout cleanup (bootstrap?)  
-- read theme selections from file with ajax (possibly from polymer_elements library)  
-- save code to localstorage or indexdb (include autosave)  
+Verified that there are no issues with latest update involving [implementation decoupling](https://github.com/rmsmith/ace.dart/pull/30 "implementation decoupling").  Note that only the index of the selected theme is saved to local storage.  If you select a dark theme but have the light theme menu selected, upon reloading, the dark theme menu will be selected.  Not sure if this is a bit ux deal or not.
+
+### Bug List:
+
+- Updating background document with main document's text is not working correctly for windows sized to display a horizontal scroll bar.  The transition between themes shows the entire background window without the scrollbar.  Probably need to capture the left side position of main document or some such thing.  Needs investigating.
+
+### Todo:    
+- save code to indexdb (include autosave)  
 - add search element
 
 ### Usage:
@@ -42,6 +45,10 @@ Using Ross Smith's awesome Ace api to make an editor element in Polymer.dart (JS
   </body>
 </html>
 ````
+
+### Screenshot as polymer element:
+
+![Ace editor as polymer element](http://www.scribegriff.com/dartlang/github/filter-code.jpg)
 
 ### References:  
 [ace.dart](https://github.com/rmsmith/ace.dart "ace.dart")     
