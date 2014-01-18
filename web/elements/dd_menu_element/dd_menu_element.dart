@@ -1,4 +1,5 @@
 import 'dart:html';
+import 'dart:convert';
 import 'package:polymer/polymer.dart';
 
 class Item extends Observable {
@@ -14,9 +15,10 @@ class Item extends Observable {
 
 @CustomTag('dropdown-menu-element')
 class DropdownMenuElement extends PolymerElement {
-  @published bool darkTheme = false;
   @published String choice;
-  @published String commonName;
+  @observable bool darkTheme = false;
+  @observable String commonName;
+  @observable int savedIndex = 4;
   final List<Item> items = [
                             new Item('ambiance', 'fa fa-glass', true),
                             new Item('chaos', 'fa fa-bolt', true),
@@ -49,8 +51,13 @@ class DropdownMenuElement extends PolymerElement {
   Element ddmenu;
 
   DropdownMenuElement.created() : super.created() {
-    choice = darkTheme ? items.first.name : items[4].name;
-    commonName = darkTheme ? items.first.cname : items[4].cname;
+    String json = window.localStorage['themeIndex'];
+
+    if (json != null) savedIndex = JSON.decode(json);
+
+    darkTheme = items[savedIndex].dark;
+    choice = items[savedIndex].name;
+    commonName = items[savedIndex].cname;
 
     onPropertyChange(this, #darkTheme, () =>
         notifyPropertyChange(#themeClass, null, darkTheme));
@@ -74,6 +81,8 @@ class DropdownMenuElement extends PolymerElement {
     e.preventDefault();
     choice = target.id;
     commonName = target.text;
+    savedIndex = items.indexOf(items.firstWhere(((item) =>
+        item.name == choice)));
   }
 
   removeActiveClass() {

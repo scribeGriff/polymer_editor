@@ -16,23 +16,44 @@ class Editor extends PolymerElement {
   };
 
   static String resultsConvolution = """
+/**
+ * Computing the impulse response of a digital filter.
+ *
+ * The filter is defined by the following difference equation:
+ * y(n) - y(n - 1) + 0.9y(n - 2) = x(n)
+ *
+ */
+
+import 'dart:html';
 import 'package:convolab/convolab.dart';
+import 'package:simplot/simplot.dart';
 
 void main() {
-  // X sequence coefficients.
-  Sequence x = sequence([$ncoeff]);
-  // Create the X sequence position vector.
-  Sequence n = x.position($nindex);
-  // H sequence coefficients.
-  Sequence h = sequence([$dcoeff]);
-  // Create the H sequence position vector.
-  Sequence nh = h.position($dindex);
-  // Compute y = x * h
-  var y = conv(x, h, n, nh);
-  // Print the results.
-  print(pstring(x, index:n.indexOf(0), variable:'z', name:'x'));
-  print(pstring(h, index:nh.indexOf(0), variable:'z', name:'h'));
-  print(y.format('latex', 'z', 'y'));
+  // Define a canvas for drawing a 2D plot of the impulse response.
+  Plot2D impulsePlot;
+  // Define an impulse sequence.
+  Sequence x = impseq(141, 20);
+  // Define a position sequence for the impulse.
+  Sequence n = x.position(20);
+  // Define the numerator coefficient of the filter.
+  Sequence b = sequence([1]);
+  // Define the denominator coefficient of the filter.
+  Sequence a = sequence([1, -1, 0.9]);
+  // Compute the impulse response.
+  FilterResults h = filter(b, a, x);
+  // Print the response and the final conditions.
+  print(h.x);
+  print(h.z);
+  // Determine the stability of the filter by calculating the sum(abs(h(n)).
+  print(h.x.abs().sum());
+  
+  // Plot the impulse response of the filter.
+  impulsePlot = plot(h.x.toList(), xdata:n.toList(), shadow:element,
+      style1:'data', color1:'blue', range:2, index:1);
+  impulsePlot
+      ..grid()
+      ..title(title)
+      ..ymarker(0, width:2);
 }
 """;
 
